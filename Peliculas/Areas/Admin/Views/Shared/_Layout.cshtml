@@ -1,0 +1,74 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="~/content/img/favicon.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @Styles.Render("~/bundles/css")
+    <title>Peliculas</title>
+</head>
+<body>
+
+    <div class="preloader">
+        <svg class="page-border top trans trans-fill" height="13" width="100%"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border right trans trans-fill" width="13" height="100%"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border bottom trans trans-fill" height="13" width="100%"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border left trans trans-fill" width="13" height="100%"><rect height="100%" width="100%" /></svg>
+
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+            <div class="loader-courtain"></div>
+        </div>
+
+    </div>
+
+    <div class="wrapper">
+        <div class="sidebar">
+
+            <div class="logo">
+
+            </div>
+
+            <ul class="nav flex-column">
+                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Peliculas" ? "active" : "")">
+                        <a class="nav-link" href="@Url.Action("List", "Film",new { Area="Admin" })">
+                            Peliculas
+                        </a>
+                    </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Logout", "Account",new { Area="" })">
+                        <i class="fal fa-fw fa-times"></i> Cerrar sesión
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-panel">
+
+            <div class="logo-sm">
+
+            </div>
+            <div id="handle">
+                <svg width="30" height="2" class="top trans trans-fill"><rect height="100%" width="100%" /></svg>
+                <svg width="30" height="2" class="middle trans trans-fill"><rect height="100%" width="100%" /></svg>
+                <svg width="30" height="2" class="bottom trans trans-fill"><rect height="100%" width="100%" /></svg>
+            </div>
+
+            @Html.Raw(Peliculas.MessageDisplay.ShowMessage())
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/slim")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Views/Layout.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+﻿@model Peliculas.Areas.Admin.Models.Film.Edit
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid page-title">
+    <div class="row align-items-end">
+        <div class="col-md-7">
+            <h1><i class="fal fa-film"></i> @Html.Raw(Model.FilmId != 0 ? Model.Name : "Nueva pelicula")</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid content">
+    @using (Html.BeginForm("Edit", "Film", new { Area = "Admin" }, FormMethod.Post, new { @class = "", id = "form-edicion-Film", enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(x => x.FilmId)
+
+        @Html.AntiForgeryToken()
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row title">
+                    <div class="col-sm-7">
+                        <h2>Datos</h2>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="form-group mb-0">
+                            <div class="form-label-group mb-0">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre", type = "text", id = "inputFilmName", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                <label for="inputFilmName">Nombre</label>
+                            </div>
+                        </div>
+                    </div>
+
+                   <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="form-group mb-0">
+                            <div class="form-label-group mb-0">
+                                @Html.DropDownListFor(model => model.GenreId, Model.GenreList, "Seleccionar..", new { @class = "custom-select", id = "inputFilmGenre" })
+                                <label for="inputFilmGenre">Género</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-4 mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.Enabled, new { @class = "form-check-input", id = "enabledCheckbox" })
+                                @Html.HiddenFor(model => model.Enabled)
+                                @Html.Label("enabledCheckbox", "Habilitar", new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(model => model.Enabled, "", new { @class = "text-danger mt-2" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @Html.ActionLink("Volver", "List", "Film", new { Area = "Admin" }, new { @class = "btn btn-outline-primary mt-4" })
+            @if (Model.FilmId > 0)
+            {
+                @Html.ActionLink("Eliminar", "Delete", "Film", new { Area = "Admin", FilmId = Model.FilmId }, new { @class = "btn btn-danger mt-4", id = "deleteButton" })
+            }
+            <button type="submit" class="btn btn-success mt-4">Guardar <i class="fal fa-angle-right"></i></button>
+        </div>
+    }   
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteButton = document.getElementById('deleteButton');
+        deleteButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            var confirmDelete = confirm('¿Estás seguro de que deseas eliminar esta película?');
+            if (confirmDelete) {
+                window.location.href = this.href;
+            }
+        });
+    });
+</script>

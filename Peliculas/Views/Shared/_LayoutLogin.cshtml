@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="~/content/img/favicon.png" />
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,600&display=swap" rel="stylesheet">
+    @Styles.Render("~/bundles/css")
+
+    <title>Peliculas</title>
+</head>
+<body class="login">
+
+    <div class="preloader">
+        <svg class="page-border top trans trans-fill" height="13" width="100%" class="top"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border right trans trans-fill" width="13" height="100%" class="top"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border bottom trans trans-fill" height="13" width="100%" class="top"><rect height="100%" width="100%" /></svg>
+        <svg class="page-border left trans trans-fill" width="13" height="100%" class="top"><rect height="100%" width="100%" /></svg>
+
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+            <div class="loader-courtain"></div>
+        </div>
+    </div>
+
+    <div class="sing-in">
+        @Html.Raw(Peliculas.MessageDisplay.ShowMessage())
+        @RenderBody()
+        <p class="mt-5 mb-3 text-muted text-center">Eval. técnica Damian Gonzalez - Peliculas - @DateTime.Now.Month/@DateTime.Now.Year</p>
+    </div>
+
+    @Scripts.Render("~/bundles/slim")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @RenderSection("footer", required: false)
+    <script>
+        // Preloader
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('body').addClass('loaded');
+            }, 1000);
+        });
+
+        $("#handle").click(function () {
+            $("body").toggleClass("nav-open");
+        });
+
+        $(document).click(function () {
+            if ($("body").hasClass("nav-open")) {
+                $("body").removeClass("nav-open");
+            }
+        });
+        $("#handle").click(function (event) {
+            event.stopPropagation();
+        });
+
+        $('#inputPassword, #inputConfirmPassword').on('input', function () {
+            var value = $(this).val();
+            if (value.length > 4) {
+                $(this).val(value.substring(0, 4));
+            }
+        });
+
+        $('.toggle-password').click(function () {
+            $(this).toggleClass('fa-eye fa-eye-slash');
+            var input = $(this).closest('.form-label-group').find('input');
+
+            if (input.attr('type') == 'password') {
+                input.attr('type', 'text');
+            } else {
+                input.attr('type', 'password');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@model Peliculas.Areas.Admin.Models.Film.List
+
+@if (Model.FilmList.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="column-1">Id</th>
+                    <th class="column-1">Fecha Creación</th>
+                    <th class="column-1">Nombre</th>
+                    <th class="column-1">Duración</th>
+                    <th class="column-1">Género</th>
+                    <th class="column-1"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DTO.vFilm peliculas in Model.FilmList)
+                {
+                    <tr>
+                        <td>@peliculas.FilmId</td>
+                        <td>@(peliculas.DateCreated.HasValue ? peliculas.DateCreated.Value.ToString("dd/MMM/yyyy") : "Sin fecha")</td>
+                        <td>@peliculas.FilmName</td>
+                        <td> </td>
+                        <td>@peliculas.GenderName</td>
+                        <td class="text-right">
+                            <a href="@Url.Action("Edit", "Film", new { Area = "Admin", FilmId = peliculas.FilmId })" aria-label="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">No se encontraron peliculas</div>
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmDeleteFilm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar pelicula</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea eliminar la pelicula?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary mt-4" data-dismiss="modal">Cancelar</button>
+                @Html.ActionLink("Confirmar", "DeleteFilm", "Film", new { Area = "Admin"}, new { @class = "btn btn-success mt-4" })
+            </div>
+        </div>
+    </div>
+</div>

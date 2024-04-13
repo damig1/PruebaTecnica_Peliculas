@@ -1,0 +1,96 @@
+﻿CREATE DATABASE Eval_Tecnica_Peliculas;
+GO
+
+USE Eval_Tecnica_Peliculas;
+GO
+
+****************************************************
+
+CREATE TABLE UserRole (
+    UserRoleId INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(20) NOT NULL,
+    CONSTRAINT UQ_Name UNIQUE (Name)
+);
+
+GO
+
+
+INSERT INTO UserRole (Name) VALUES ('Administrador');
+GO
+INSERT INTO UserRole (Name) VALUES ('Asistente');
+
+************************************************************************************
+
+CREATE TABLE [User] (
+    UserId UNIQUEIDENTIFIER PRIMARY KEY,
+    Name NVARCHAR(MAX) NULL,
+    Lastname NVARCHAR(MAX) NULL,
+	Document NVARCHAR(15) NULL,
+	Email NVARCHAR(MAX) NULL,
+	UserName NVARCHAR(MAX) NULL,
+	Password NVARCHAR(10) NULL,
+	Enabled BIT NULL,	
+	UserRoleId INT NOT NULL,
+	CONSTRAINT FK_User_UserRole FOREIGN KEY (UserRoleId) REFERENCES UserRole(UserRoleId)
+);
+
+************************************************************************************
+
+Insert into [User] (Userid, Name, Lastname, Document, Email, UserName, Password, Enabled, UserRoleId) values (newid(), 'Damian', 'Gonzalez', '34537483', 'xdgonzalez@hotmail.com', 'admin', '1234', 1, 1)
+
+************************************************************************************
+
+CREATE TABLE Genre (
+    GenreId INT IDENTITY(1,1) NOT NULL,
+    Name VARCHAR(30) NOT NULL,
+    CONSTRAINT PK_Genre PRIMARY KEY (GenreId)
+);
+
+************************************************************************************
+
+CREATE TABLE Film (
+    FilmId INT IDENTITY(1,1) NOT NULL,
+    Name VARCHAR(MAX) NOT NULL,
+    Enabled BIT NULL,
+    GenreId INT NOT NULL,
+    DateCreated DateTime NULL,
+    CONSTRAINT PK_Film PRIMARY KEY (FilmId),
+    CONSTRAINT FK_Film_Genre FOREIGN KEY (GenreId) REFERENCES Genre (GenreId)
+);
+
+Insert into Genre (Name) values ('Acción')
+Insert into Genre (Name) values ('Comedia')
+Insert into Genre (Name) values ('Drama')
+
+************************************************************************************
+
+Insert into Film (Name, Enabled, GenreId, DateCreated ) values ('Karate Kid I', 1, 1, GETDATE())
+Insert into Film (Name, Enabled, GenreId, DateCreated ) values ('Karate Kid II', 1, 2, GETDATE())
+Insert into Film (Name, Enabled, GenreId, DateCreated) values ('Karate Kid III', 1, 1, GETDATE())
+
+************************************************************************************
+
+CREATE VIEW [dbo].[vFilm]
+AS
+SELECT   
+	F.FilmId,
+	F.Name AS FilmName,
+	F.Enabled,
+	F.GenreId,
+    F.DateCreated,
+	G.Name AS GenderName
+FROM      
+    dbo.Film F
+LEFT JOIN
+    dbo.Genre G ON F.GenreId = G.GenreId
+GO
+
+************************************************************************************
+
+CREATE PROCEDURE Delete_FilmSP
+    @FilmId INT
+AS
+BEGIN
+    DELETE FROM Film
+    WHERE FilmId = @FilmId;
+END

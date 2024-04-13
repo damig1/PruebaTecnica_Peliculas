@@ -1,0 +1,32 @@
+﻿@model Peliculas.Models.Account.Login
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="text-center mb-4">
+        <img src="~/Content/img/peliculas-logo.png" alt="Peliculas" class="mb-4 logo">
+        <p>Ingresá tus credenciales</p>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Usuario", type = "usuario", id = "inputUser" } })
+                <label for="inputUsuario">Usuario</label>
+            </div>
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", type = "password", id = "inputPassword" } })
+                <label for="inputPassword">Contraseña</label>
+                <i class="fa fa-eye toggle-password" aria-hidden="true" style="cursor:pointer;"></i>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Iniciar sesión</button>
+            <p class="text-center">
+                <a href="@Url.Action("Register", "Account")">Crear cuenta</a>
+            </p>
+        </div>
+    </div>
+}

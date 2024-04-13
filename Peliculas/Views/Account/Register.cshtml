@@ -1,0 +1,68 @@
+﻿@model Peliculas.Models.Account.Register
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-body">
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre", type = "text", id = "inputName" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <label for="inputName">Nombre</label>
+            </div>
+
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control", @placeholder = "Apellido", type = "text", id = "inputLastname" } })
+                @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+                <label for="inputLastname">Apellido</label>
+            </div>
+
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Document, new { htmlAttributes = new { @class = "form-control", @placeholder = "Documento", type = "text", id = "inputDocument" } })
+                <label for="inputDocument">Documento</label>
+            </div>
+
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", type = "text", id = "inputEmail" } })
+                <label for="inputEmail">Email</label>
+            </div>
+
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Usuario", type = "text", id = "inputUserName" } })
+                <label for="inputUserName">Usuario</label>
+            </div>
+
+            <div class="form-label-group">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", type = "password", id = "inputPassword" } })
+                <label for="inputPassword">Contraseña</label>
+                <i class="fa fa-eye toggle-password" aria-hidden="true" style="cursor:pointer;"></i>
+            </div>
+
+            <div class="form-group mb-0">
+                <div class="form-label-group mb-0">
+                    @Html.DropDownListFor(model => model.UserRoleId, Model.UserRoleList, "Seleccionar..", new { @class = "custom-select", id = "inputUserRole" })
+                    @Html.ValidationMessageFor(model => model.UserRoleId, "", new { @class = "text-danger" })
+                    <label for="inputUserRole">Tipo de usuario</label>
+                </div>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block mt-4 mb-3" type="submit">Registrarse</button>
+            <p class="text-center">
+                <a href="@Url.Action("Login", "Account")">Volver al login</a>
+            </p>
+        </div>
+    </div>
+}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var inputDocument = document.getElementById('inputDocument');
+    inputDocument.addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+});
+</script>

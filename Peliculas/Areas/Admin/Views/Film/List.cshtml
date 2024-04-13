@@ -1,0 +1,91 @@
+﻿@model Peliculas.Areas.Admin.Models.Film.List
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid page-title">
+    <div class="row align-items-end">
+        <div class="col-md-6">
+            <h1><i class="fal fa-film"></i> Peliculas</h1>
+        </div>
+        <div class="col-md-6 text-md-right">
+            <a href="@Url.Action("Edit","Film", new { Area="Admin"})" class="btn btn-success mt-2 mt-md-0">Nueva Pelicula <i class="fal fa-angle-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid content">
+    <div class="filters">
+        @using (Ajax.BeginForm("List", null, new AjaxOptions
+        {
+            HttpMethod = "Post",
+            UpdateTargetId = "film-list",
+            OnSuccess = "listSuccess"
+        }, new { id = "Film-filter" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card widget">
+                <div class="card-body pb-2">
+                    <div class="form-row">
+                        <div class="col-sm-6 col-md-4 col-xl-2 mb-2">
+                            <div class="form-group mb-0">
+                                <div class="form-label-group mb-0">
+                                    @Html.EditorFor(model => model.SearchFields.Keyword, new { htmlAttributes = new { @class = "form-control", @placeholder = "Palabra Clave", type = "text", id = "inp-keyword", autocomplete = "off" } })
+                                    <label for="inputPalabra">Palabra Clave</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-xl-2 mb-2">
+                            <div class="form-group mb-0">
+                                <div class="form-label-group mb-0">
+                                    @Html.DropDownListFor(model => model.SearchFields.GenreId, Model.GenreList, "Seleccionar..", new { @class = "custom-select", id = "Genero" })
+                                    <label for="Genero">Género</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-3">
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                        </div>
+
+                        <div class="col-md-3 text-center">
+                            <div class="form-group mb-0">
+                                <a href="@Url.Action("List","Film", new { Area="Admin", clearFilter = true })" class="btn btn-link px-0 mr-4">Quitar</a>
+                                <button type="submit" id="btn-submitFilmFilter" class="btn btn-primary">Filtrar <i class="fal fa-angle-right"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div id="film-list">
+                @{Html.RenderPartial("_List", Model);}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    <script src="~/Scripts/FilmViews/FilmList.js"></script>
+    <script>
+        var listURL = '@Url.Action("List", "Film", new { Area="Admin" })';
+    </script>
+}
