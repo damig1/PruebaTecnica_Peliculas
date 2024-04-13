@@ -33,11 +33,11 @@
             </div>
 
             <ul class="nav flex-column">
-                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Peliculas" ? "active" : "")">
-                        <a class="nav-link" href="@Url.Action("List", "Film",new { Area="Admin" })">
-                            Peliculas
-                        </a>
-                    </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Peliculas" ? "active" : "")">
+                    <a class="nav-link" href="@Url.Action("List", "Film",new { Area="Admin" })">
+                        Peliculas
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Logout", "Account",new { Area="" })">
@@ -68,7 +68,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
 
+    <!-- datepicker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <!-- /datepicker -->
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/Views/Layout.js?v=1"></script>
+    <link rel="stylesheet" type="text/css" src="~/Content/css/daterangepicker.css">
 </body>
 </html>
